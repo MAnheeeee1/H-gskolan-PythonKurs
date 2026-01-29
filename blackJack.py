@@ -63,19 +63,28 @@ def Print_Out_Player_And_Dealer_Hand() -> None:
     Print_Out_Hand(playerCards)
 
 
-def Check_Winner() -> None:
-    if CalculateScore(dealerCards) > 21:
-        print("Dealer lost")
-        print("Dealer cards: ")
-        Print_Out_Hand(dealerCards)
-        print("Your cards:")
-        Print_Out_Hand(playerCards)
-    elif CalculateScore(dealerCards) < CalculateScore(playerCards):
-        print("User won")
-        Print_Out_Player_And_Dealer_Hand()
-    elif CalculateScore(playerCards) < CalculateScore(dealerCards):
-        print("Dealer won")
-        Print_Out_Player_And_Dealer_Hand()
+def Check_Winner(just_check: bool) -> bool:
+    player_score: int = CalculateScore(playerCards)
+    dealer_score: int = CalculateScore(dealerCards)
+    if dealer_score > 21:
+        if not just_check:
+            print("Dealer lost")
+            print("Dealer cards: ")
+            Print_Out_Hand(dealerCards)
+            print("Your cards:")
+            Print_Out_Hand(playerCards)
+            return True
+    elif dealer_score < player_score and player_score <= 21:
+        if not just_check:
+            print("User won")
+            Print_Out_Player_And_Dealer_Hand()
+            return True
+    elif player_score < dealer_score:
+        if not just_check:
+            print("Dealer won")
+            Print_Out_Player_And_Dealer_Hand()
+            return True
+    return False
 
 
 def Print_out_current_score() -> None:
@@ -84,8 +93,36 @@ def Print_out_current_score() -> None:
     print("Your cards: " + str(CalculateScore(playerCards)))
 
 
+def main_game() -> None:
+    DrawACard("player", True)
+    DrawACard("dealer", True)
+    DrawACard("player", True)
+    DrawACard("dealer", False)
+    print("Dealer has drawn his second card")
+    print("Hit or Stand (h/s)")
+    user_choice: str = input()
+    if user_choice == "s":
+        print("Dealer second card was: " + str(dealerCards[-1]))
+        while CalculateScore(dealerCards) < 16:
+            DrawACard("dealer", True)
+        Print_out_current_score()
+        Check_Winner(just_check=False)
+    else:
+        user_want_to_continue: bool = True
+        while user_want_to_continue == True and CalculateScore(playerCards) < 21:
+            DrawACard("player", True)
+            if CalculateScore(playerCards) > 21:
+                print("Bust, Dealer won")
+            else:
+                print("Hit or Stand (h/s)")
+                user_want_to_continue = True if input() == "h" else False
+        Print_out_current_score()
+        Check_Winner(just_check=False)
+
+
 def main():
-    while True:
+    continue_game: bool = True
+    while continue_game:
         print("""
             /$$$$$$$  /$$                     /$$                               /$$
            | $$__  $$| $$                    | $$                              | $$
@@ -98,22 +135,10 @@ def main():
                                                   /$$  | $$
                                                  |  $$$$$$/
                                                   \\______/                               """)
-        DrawACard("player", True)
-        DrawACard("dealer", True)
-        DrawACard("player", True)
-        DrawACard("dealer", False)
-        print("Dealer has drawn his second card")
-        print("Hit or Stand (h/s)")
-        user_choice: str = input()
-        if user_choice == "s":
-            print("Dealer second card was: " + str(dealerCards[-1]))
-            while CalculateScore(dealerCards) < 16:
-                DrawACard("dealer", True)
-
-            Print_out_current_score()
-            Check_Winner()
-
-        break
+        print("Menu\n1. Enter The Table\n2. Whithdraw Funds\n3. Deposite Funds")
+        user_choice: str = input().lower()
+        if user_choice == "1":
+            main_game()
 
 
 if __name__ == "__main__":
