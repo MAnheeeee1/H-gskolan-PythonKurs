@@ -18,6 +18,30 @@ ranks: list[str] = [
 ]
 dealerCards: list[tuple] = []
 playerCards: list[tuple] = []
+playerBalance: float = 1000
+
+
+def Deposite_Funds() -> None:
+    global playerBalance
+    Print_Out_Balance()
+    print("Deposite amount(kr): ")
+    deposite_amount: float = float(input())
+    playerBalance += deposite_amount
+
+
+def Withdraw_Funds() -> None:
+    global playerBalance
+    Print_Out_Balance()
+    print("Withdraw amount: ")
+    withdraw_amount: float = float(input())
+    if withdraw_amount <= playerBalance:
+        playerBalance -= withdraw_amount
+    else:
+        print("Not sufficient fund")
+
+
+def Print_Out_Balance() -> None:
+    print(f"Account Balance: {playerBalance}kr ")
 
 
 def DrawACard(who_is_drawing: str, should_print_out_drawn_card: bool) -> None:
@@ -139,6 +163,8 @@ def main():
         user_choice: str = input().lower()
         if user_choice == "1":
             main_game()
+        elif user_choice == "2":
+            Deposite_Funds()
 
 
 if __name__ == "__main__":
