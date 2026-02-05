@@ -140,30 +140,45 @@ def main_game() -> None:
             else:
                 print("Hit or Stand (h/s)")
                 user_want_to_continue = True if input() == "h" else False
+
+        while CalculateScore(dealerCards) < 16:
+            DrawACard("dealer", True)
         Print_out_current_score()
         Check_Winner(just_check=False)
+
+
+def print_out_startmenu() -> None:
+    print("""
+        /$$$$$$$  /$$                     /$$                               /$$
+       | $$__  $$| $$                    | $$                              | $$
+       | $$  \\ $$| $$  /$$$$$$   /$$$$$$$| $$   /$$ /$$  /$$$$$$   /$$$$$$$| $$   /$$
+       | $$$$$$$ | $$ |____  $$ /$$_____/| $$  /$$/|__/ |____  $$ /$$_____/| $$  /$$/
+       | $$__  $$| $$  /$$$$$$$| $$      | $$$$$$/  /$$  /$$$$$$$| $$      | $$$$$$/
+       | $$  \\ $$| $$ /$$__  $$| $$      | $$_  $$ | $$ /$$__  $$| $$      | $$_  $$
+       | $$$$$$$/| $$|  $$$$$$$|  $$$$$$$| $$ \\  $$| $$|  $$$$$$$|  $$$$$$$| $$ \\  $$
+       |_______/ |__/ \\_______/ \\_______/|__/  \\__/| $$ \\_______/ \\_______/|__/  \\__/
+                                              /$$  | $$
+                                             |  $$$$$$/
+                                              \\______/                               """)
+    print(
+        f"Menu\nCurrent Balance: {playerBalance}kr \n1. Enter The Table\n2. Whithdraw Funds\n3. Deposite Funds"
+    )
 
 
 def main():
     continue_game: bool = True
     while continue_game:
-        print("""
-            /$$$$$$$  /$$                     /$$                               /$$
-           | $$__  $$| $$                    | $$                              | $$
-           | $$  \\ $$| $$  /$$$$$$   /$$$$$$$| $$   /$$ /$$  /$$$$$$   /$$$$$$$| $$   /$$
-           | $$$$$$$ | $$ |____  $$ /$$_____/| $$  /$$/|__/ |____  $$ /$$_____/| $$  /$$/
-           | $$__  $$| $$  /$$$$$$$| $$      | $$$$$$/  /$$  /$$$$$$$| $$      | $$$$$$/
-           | $$  \\ $$| $$ /$$__  $$| $$      | $$_  $$ | $$ /$$__  $$| $$      | $$_  $$
-           | $$$$$$$/| $$|  $$$$$$$|  $$$$$$$| $$ \\  $$| $$|  $$$$$$$|  $$$$$$$| $$ \\  $$
-           |_______/ |__/ \\_______/ \\_______/|__/  \\__/| $$ \\_______/ \\_______/|__/  \\__/
-                                                  /$$  | $$
-                                                 |  $$$$$$/
-                                                  \\______/                               """)
-        print("Menu\n1. Enter The Table\n2. Whithdraw Funds\n3. Deposite Funds")
+        print_out_startmenu()
         user_choice: str = input().lower()
         if user_choice == "1":
             main_game()
+            global playerCards
+            global dealerCards
+            dealerCards = []
+            playerCards = []
+
         elif user_choice == "2":
+        elif user_choice == "3":
             Deposite_Funds()
 
 
