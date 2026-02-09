@@ -161,7 +161,7 @@ def print_out_startmenu() -> None:
                                              |  $$$$$$/
                                               \\______/                               """)
     print(
-        f"Menu\nCurrent Balance: {playerBalance}kr \n1. Enter The Table\n2. Whithdraw Funds\n3. Deposite Funds"
+        f"Menu\nCurrent Balance: {playerBalance}kr \n1. Enter The Table\n2. Whithdraw Funds\n3. Deposite Funds\n4. Quite Program"
     )
 
 
@@ -178,8 +178,11 @@ def main():
             playerCards = []
 
         elif user_choice == "2":
+            Withdraw_Funds()
         elif user_choice == "3":
             Deposite_Funds()
+        elif user_choice == "4":
+            continue_game = False
 
 
 if __name__ == "__main__":
